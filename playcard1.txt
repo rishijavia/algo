@@ -1,0 +1,130 @@
+package Homework6;
+
+import org.junit.runners.Suite;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
+
+public class PlayingCard implements Comparable<PlayingCard> {
+
+	public enum  Rank { Two, Three, Four, Five, Six,
+		Seven, Eight, Nine, Ten, Jack, Queen, King, Ace }
+
+	public enum Suit { Clubs, Diamonds, Hearts, Spades }
+
+	private Rank _r;
+	private Suit _s;
+
+	public PlayingCard(Rank r, Suit s) {
+		this._r=r;
+		this._s=s;
+	}
+
+	public Rank rank() {
+		return this._r;
+	}
+
+	public Suit suit() {
+		return this._s;
+	}
+
+	/***
+	 *
+	 * @return an Iterator over a set of 52 PlayingCard objects in
+	 * their natural order
+	 */
+	public static Iterator<PlayingCard> OrderedDeck() {
+		// TODO complete this for assignment
+		return new DeckIterator<PlayingCard>();
+	}
+
+	private static class DeckIterator<PlayingCard> implements Iterator<PlayingCard>{
+		private ArrayList<PlayingCard> deck;
+		private PlayingCard currentCard;
+		private int deckSize;
+		private int currentIndex = 0;
+		private DeckIterator(){
+			for(int i = 0; i < 13; i++){
+				Rank r = Rank.values()[i];
+				for(int j=0; j< 4; j++){
+					Suit s = Suit.values()[j];
+					PlayingCard card = new PlayingCard(r, s);
+					this.deck.add(card);
+				}
+			}
+			currentCard = this.deck.get(0);
+			deckSize = deck.size();
+		}
+
+		@Override
+		public boolean hasNext(){
+			return currentIndex < deckSize && deck.get(currentIndex) != null;
+		}
+
+		@Override
+		public PlayingCard next() {
+			return deck.get(currentIndex++);
+		}
+
+		@Override
+		public void remove(){}
+
+	}
+
+	/***
+	 *
+	 * @return an Iterator over a set of 52 PlayingCard objects
+	 *  in a randomized order
+	 */
+	public static Iterator<PlayingCard> ShuffledDeck() {
+		//TODO complete this for assignment
+		return null;
+	}
+
+	/***
+	 * asssumptions for natural ordering:
+	 *   Rank:  Two < Three < ..Ten < Jack < Queen < King < Ace
+	 *   Suit: Clubs < Diamonds < Hearts < Spades
+	 */
+	@Override
+	public int compareTo(PlayingCard o) {
+		if (this._r.compareTo(o._r) > 0) return 1;
+		else if(this._r.compareTo(o._r) < 0) return -1;
+		else{
+			if (this._s.compareTo(o._s) > 0) return 1;
+			else if (this._s.compareTo(o._s) < 0) return -1;
+			else{
+				return 0;
+			}
+		}
+	}
+
+	public static void main(String args[]){
+		PlayingCard card1 = new PlayingCard(Rank.Two, Suit.Clubs);
+		PlayingCard card2 = new PlayingCard(Rank.Two, Suit.Clubs);
+		System.out.println(card2.compareTo(card1));
+		System.out.println(card1.compareTo(card2));
+//
+//		card1 = new PlayingCard(Rank.Two, Suit.Hearts);
+//		card2 = new PlayingCard(Rank.Ace, Suit.Spades);
+//		System.out.println(card2.compareTo(card1));
+//		System.out.println(card1.compareTo(card2));
+//
+//		card1 = new PlayingCard(Rank.Jack, Suit.Diamonds);
+//		card2 = new PlayingCard(Rank.Ten, Suit.Hearts);
+//		System.out.println(card2.compareTo(card1));
+//		System.out.println(card1.compareTo(card2));
+//
+//		card1 = new PlayingCard(Rank.Queen, Suit.Spades);
+//		card2 = new PlayingCard(Rank.Queen, Suit.Clubs);
+//		System.out.println(card2.compareTo(card1));
+//		System.out.println(card1.compareTo(card2));
+//
+//		card1 = new PlayingCard(Rank.King, Suit.Clubs);
+//		card2 = new PlayingCard(Rank.King, Suit.Hearts);
+//		System.out.println(card2.compareTo(card1));
+//		System.out.println(card1.compareTo(card2));
+	}
+
+}
